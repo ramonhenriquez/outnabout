@@ -1,0 +1,51 @@
+---
+import '../styles/global.css';
+import ThemeScript from '../components/ThemeScript.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { url } from '../lib/paths';
+
+interface Props {
+  /** Page title; " · OutNAbout" is appended. Omit on the home page. */
+  title?: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = 'OutNAbout is a private, invite-only space for friends to discover places and plan outings together.',
+} = Astro.props;
+
+const fullTitle = title ? `${title} · OutNAbout` : 'OutNAbout';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <!-- Private site: keep it out of search engines. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#faf8f5" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#141311" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
+    <link rel="icon" href={url('/favicon.ico')} />
+    <title>{fullTitle}</title>
+    <ThemeScript />
+  </head>
+  <body class="flex min-h-screen flex-col">
+    <a
+      href="#main"
+      class="sr-only z-50 rounded-full bg-accent px-4 py-2 font-medium text-accent-ink focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+    >
+      Skip to content
+    </a>
+    <SiteHeader />
+    <main id="main" tabindex="-1" class="mx-auto w-full max-w-6xl flex-1 px-4 pt-10 focus:outline-none sm:px-6 sm:pt-14 lg:px-8">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>

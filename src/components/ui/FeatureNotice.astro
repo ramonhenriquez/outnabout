@@ -1,0 +1,30 @@
+---
+/**
+ * Marks a feature that is designed but not wired up yet (typically because it
+ * needs Supabase auth or data). Search for "FeatureNotice" to find every
+ * placeholder that the backend milestone needs to replace.
+ */
+interface Props {
+  /** Short name of the feature, e.g. "Saved places". */
+  feature: string;
+  /** What the feature will need, e.g. "Supabase auth" or "Supabase database". */
+  requires?: string;
+  class?: string;
+}
+
+const { feature, requires = 'Supabase', class: className } = Astro.props;
+---
+
+<aside
+  class:list={['flex gap-3 rounded-xl border border-line bg-surface-muted p-4 text-sm text-ink-muted', className]}
+  data-placeholder={feature}
+>
+  <svg class="mt-0.5 size-5 shrink-0 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="9"></circle>
+    <path d="M12 8v5M12 16h.01"></path>
+  </svg>
+  <p>
+    <strong class="font-semibold text-ink">{feature}</strong> is coming soon. It will be enabled once {requires} is
+    connected. <slot />
+  </p>
+</aside>

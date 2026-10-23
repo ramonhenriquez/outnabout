@@ -1,0 +1,13 @@
+---
+import AppLayout from '../layouts/AppLayout.astro';
+import Button from '../components/ui/Button.astro';
+import EmptyState from '../components/ui/EmptyState.astro';
+import { url } from '../lib/paths';
+---
+
+<AppLayout title="Page not found">
+  <h1 class="sr-only">Page not found</h1>
+  <EmptyState title="We couldn’t find that page" description="The link may be broken, or the page may have moved.">
+    <Button href={url('/')}>Back to home</Button>
+  </EmptyState>
+</AppLayout>

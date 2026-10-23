@@ -1,0 +1,57 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import Button from '../../components/ui/Button.astro';
+import EmptyState from '../../components/ui/EmptyState.astro';
+import FeatureNotice from '../../components/ui/FeatureNotice.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import ThemeToggle from '../../components/ThemeToggle.astro';
+
+const activity = [
+  { title: 'Saved places', description: 'Places you save will be listed here.' },
+  { title: 'Reviews', description: 'Reviews you write will be listed here.' },
+  { title: 'Recommendations', description: 'Places you recommend to the group will be listed here.' },
+];
+---
+
+<AppLayout title="Profile" description="Your OutNAbout profile and preferences.">
+  <PageHeader eyebrow="You" title="Profile" description="Your saved places, reviews, and preferences.">
+    <Button slot="actions" disabled>Sign in</Button>
+  </PageHeader>
+
+  <div class="grid gap-10 lg:grid-cols-[18rem_1fr]">
+    <aside class="flex flex-col gap-6">
+      <div class="flex items-center gap-4 rounded-2xl border border-line bg-surface p-5">
+        <div class="flex size-14 items-center justify-center rounded-full bg-surface-muted text-ink-muted" aria-hidden="true">
+          <svg class="size-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round">
+            <circle cx="12" cy="8" r="4"></circle>
+            <path d="M4 21a8 8 0 0 1 16 0"></path>
+          </svg>
+        </div>
+        <div>
+          <p class="font-semibold text-ink">Guest</p>
+          <p class="text-sm text-ink-muted">Not signed in</p>
+        </div>
+      </div>
+
+      <section aria-labelledby="appearance-heading" class="rounded-2xl border border-line bg-surface p-5">
+        <h2 id="appearance-heading" class="font-sans text-sm font-semibold tracking-widest text-ink-muted uppercase">
+          Appearance
+        </h2>
+        <div class="mt-4 flex items-center justify-between gap-4">
+          <p class="text-sm text-ink">Dark mode</p>
+          <ThemeToggle />
+        </div>
+        <p class="mt-3 text-xs text-ink-muted">Saved on this device.</p>
+      </section>
+    </aside>
+
+    <div class="flex flex-col gap-8">
+      <FeatureNotice feature="Your profile" requires="Supabase authentication" />
+      {
+        activity.map((item) => (
+          <EmptyState title={item.title} description={item.description} class="py-10" />
+        ))
+      }
+    </div>
+  </div>
+</AppLayout>

@@ -1,0 +1,66 @@
+---
+import ImagePlaceholder from './ImagePlaceholder.astro';
+
+interface Props {
+  title: string;
+  eyebrow?: string;
+  description?: string;
+  /** Makes the whole card a link. Pass a base-aware URL (see lib/paths). */
+  href?: string;
+  /** Image URL. If omitted and `showImage` is true, a labeled placeholder is shown. */
+  image?: string;
+  imageAlt?: string;
+  showImage?: boolean;
+  /** Heading level for the title, to keep the document outline correct. */
+  headingLevel?: 2 | 3 | 4;
+  class?: string;
+}
+
+const {
+  title,
+  eyebrow,
+  description,
+  href,
+  image,
+  imageAlt = '',
+  showImage = true,
+  headingLevel = 3,
+  class: className,
+} = Astro.props;
+
+const Heading = `h${headingLevel}` as 'h2' | 'h3' | 'h4';
+---
+
+<article
+  class:list={[
+    'group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface transition-shadow focus-within:shadow-lg hover:shadow-lg',
+    className,
+  ]}
+>
+  {
+    showImage &&
+      (image ? (
+        <img src={image} alt={imageAlt} loading="lazy" class="aspect-[4/3] w-full object-cover" />
+      ) : (
+        <ImagePlaceholder class="aspect-[4/3]" />
+      ))
+  }
+  <div class="flex flex-1 flex-col gap-2 p-5">
+    {eyebrow && <p class="text-xs font-semibold tracking-widest text-accent uppercase">{eyebrow}</p>}
+    <Heading class="text-xl font-semibold text-ink">
+      {
+        href ? (
+          // The ::after overlay makes the whole card clickable while keeping a single link.
+          <a href={href} class="after:absolute after:inset-0 after:content-[''] focus-visible:outline-none">
+            {title}
+          </a>
+        ) : (
+          title
+        )
+      }
+    </Heading>
+    {description && <p class="text-sm leading-relaxed text-ink-muted">{description}</p>}
+    <slot />
+  </div>
+  {href && <span class="pointer-events-none absolute inset-0 rounded-2xl ring-focus group-has-[a:focus-visible]:ring-3" aria-hidden="true" />}
+</article>

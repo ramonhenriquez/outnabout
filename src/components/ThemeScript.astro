@@ -1,0 +1,31 @@
+---
+/**
+ * Runs before first paint to apply the saved (or system) theme and avoid a
+ * flash of the wrong colors. Must be rendered inside <head>.
+ */
+---
+
+<script is:inline>
+  (function () {
+    var KEY = 'outnabout-theme';
+    var stored = null;
+    try {
+      stored = localStorage.getItem(KEY);
+    } catch (e) {}
+    var media = window.matchMedia('(prefers-color-scheme: dark)');
+    var apply = function (theme) {
+      document.documentElement.classList.toggle('dark', theme === 'dark');
+    };
+    apply(stored === 'light' || stored === 'dark' ? stored : media.matches ? 'dark' : 'light');
+
+    // Follow OS changes until the user picks a theme explicitly.
+    media.addEventListener('change', function (event) {
+      var current = null;
+      try {
+        current = localStorage.getItem(KEY);
+      } catch (e) {}
+      if (current !== 'light' && current !== 'dark') apply(event.matches ? 'dark' : 'light');
+      document.dispatchEvent(new CustomEvent('themechange'));
+    });
+  })();
+</script>

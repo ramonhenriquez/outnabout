@@ -1,0 +1,30 @@
+---
+import AppLayout from '../../layouts/AppLayout.astro';
+import Button from '../../components/ui/Button.astro';
+import EmptyState from '../../components/ui/EmptyState.astro';
+import FeatureNotice from '../../components/ui/FeatureNotice.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import { url } from '../../lib/paths';
+---
+
+<AppLayout title="Collections" description="Group saved places into lists you can share with friends.">
+  <PageHeader
+    eyebrow="Curate"
+    title="Collections"
+    description="Keep the places worth remembering, organized into lists you can share with the group."
+  >
+    <Button slot="actions" disabled>New collection</Button>
+  </PageHeader>
+
+  <FeatureNotice class="mb-8" feature="Collections" requires="Supabase authentication and database" />
+
+  <EmptyState
+    title="No collections yet"
+    description="Save places from Explore and group them into collections like “Date night” or “Rainy Sunday”."
+  >
+    <svg slot="icon" class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1Z"></path>
+    </svg>
+    <Button href={url('/explore/')} variant="secondary">Go to Explore</Button>
+  </EmptyState>
+</AppLayout>

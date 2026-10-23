@@ -1,0 +1,64 @@
+---
+import AppLayout from '../layouts/AppLayout.astro';
+import Button from '../components/ui/Button.astro';
+import Card from '../components/ui/Card.astro';
+import FeatureNotice from '../components/ui/FeatureNotice.astro';
+import ImagePlaceholder from '../components/ui/ImagePlaceholder.astro';
+import { url } from '../lib/paths';
+
+const sections = [
+  {
+    eyebrow: 'Discover',
+    title: 'Explore',
+    description: 'Browse restaurants and activities your friends have found and recommended.',
+    href: url('/explore/'),
+  },
+  {
+    eyebrow: 'Curate',
+    title: 'Collections',
+    description: 'Group saved places into lists — date nights, rainy days, birthday dinners.',
+    href: url('/collections/'),
+  },
+  {
+    eyebrow: 'Gather',
+    title: 'Outings',
+    description: 'Plan private outings together: pick a place, a time, and who is coming.',
+    href: url('/outings/'),
+  },
+];
+---
+
+<AppLayout>
+  <section class="grid items-center gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-14">
+    <div>
+      <p class="mb-4 text-xs font-semibold tracking-widest text-accent uppercase">A private circle</p>
+      <h1 class="text-5xl leading-[1.05] font-semibold text-ink sm:text-6xl">
+        Good places are better found together.
+      </h1>
+      <p class="mt-6 max-w-xl text-lg leading-relaxed text-ink-muted">
+        OutNAbout is an invite-only space for a small group of friends to discover restaurants and activities,
+        keep the places worth remembering, and plan the next night out.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <Button href={url('/explore/')} size="lg">Start exploring</Button>
+        <Button href={url('/outings/')} variant="secondary" size="lg">Plan an outing</Button>
+      </div>
+    </div>
+    <ImagePlaceholder class="aspect-[4/5] rounded-3xl sm:aspect-[4/3] lg:aspect-[4/5]" label="Feature photo" />
+  </section>
+
+  <section class="mt-20" aria-labelledby="sections-heading">
+    <h2 id="sections-heading" class="mb-8 text-3xl font-semibold text-ink">What you can do here</h2>
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {sections.map((section) => <Card {...section} />)}
+    </div>
+  </section>
+
+  <section class="mt-20 max-w-2xl">
+    <h2 class="mb-4 text-3xl font-semibold text-ink">Members only</h2>
+    <p class="mb-6 leading-relaxed text-ink-muted">
+      Membership is by invitation. Signing in will let you save places, write reviews, and join outings.
+    </p>
+    <FeatureNotice feature="Sign in and invitations" requires="Supabase authentication" />
+  </section>
+</AppLayout>

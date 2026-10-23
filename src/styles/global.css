@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+/* Dark mode is driven by a `.dark` class on <html> (see ThemeScript.astro). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Design tokens. Components use the semantic colors (bg-surface, text-ink,
+ * border-line, ...) so light and dark modes only need to be defined here.
+ */
+@theme {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, Cambria, "Times New Roman", serif;
+
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-focus: var(--focus);
+}
+
+:root {
+  color-scheme: light;
+  --canvas: #faf8f5;
+  --surface: #ffffff;
+  --surface-muted: #f1ede6;
+  --ink: #1c1a17;
+  --ink-muted: #5f5950;
+  --line: #e3ddd3;
+  --accent: #9a3c22;
+  --accent-ink: #ffffff;
+  --accent-soft: #f5e4dc;
+  --focus: #1d5fd1;
+}
+
+:root.dark {
+  color-scheme: dark;
+  --canvas: #141311;
+  --surface: #1d1b18;
+  --surface-muted: #26231f;
+  --ink: #f2eee8;
+  --ink-muted: #b0a89c;
+  --line: #36322c;
+  --accent: #e08a6b;
+  --accent-ink: #1c1a17;
+  --accent-soft: #3a2820;
+  --focus: #7fb0ff;
+}
+
+@layer base {
+  html {
+    @apply bg-canvas text-ink antialiased;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-canvas font-sans;
+  }
+
+  h1, h2, h3 {
+    @apply font-serif tracking-tight text-balance;
+  }
+
+  /* Visible, consistent keyboard focus everywhere. */
+  :focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
